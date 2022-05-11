@@ -31,3 +31,4 @@ You will find:
 Change config variables. **Do not** end paths with escape `/` character. 
 
 Configure sftp/ssh with OLAP machine with public/privete keys.
+Set up cronojobs passing config.txt to exec_pipeline.sh command
