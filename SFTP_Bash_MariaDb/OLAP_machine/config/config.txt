@@ -1,8 +1,0 @@
-remote_machine_user=
-remote_machine_hostname=
-remote_file_path= #just to the folder containing the file
-remote_filename=
-data_folder=
-processed_data_filename= 
-scripts_folder=
-path_to_main_folder= #path to folder conatining scripts and config folders
