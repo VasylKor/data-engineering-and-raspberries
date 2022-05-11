@@ -1,0 +1,12 @@
+[mariadb]
+host=
+user=
+pwd=
+schema=
+port=
+dest_table= #table used as stg
+
+[system]
+data_folder=#path
+data_filename=
+processed_data_filename=
