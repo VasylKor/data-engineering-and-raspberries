@@ -33,7 +33,8 @@ except mariadb.Error as e:
 
 data = pd.read_csv(data_path)
 data['Datetime'] = pd.to_datetime(data['Datetime'])
-# getting Id as int taken from datetime
+# getting Id as int taken from datetime -- makes assumptions
+# on how pandas stores datetime
 data['Id'] = data['Datetime'].astype(int) / 10**9
 
 # Setting datetime in format accepted by Mariadb

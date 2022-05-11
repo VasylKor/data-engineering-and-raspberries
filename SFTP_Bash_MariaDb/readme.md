@@ -27,6 +27,7 @@ You will find:
     - `scripts`: folder with scripts
     - `config`: folder with configs to be edited
     - `sql`: folder with sql scripts
+    - `logs`: folder with logs
 
 ## How to use
 Change config variables. **Do not** end paths with escape `/` character. 
