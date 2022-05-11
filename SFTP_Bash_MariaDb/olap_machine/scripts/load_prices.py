@@ -34,7 +34,7 @@ except mariadb.Error as e:
 data = pd.read_csv(data_path)
 data['Datetime'] = pd.to_datetime(data['Datetime'])
 # getting Id as int taken from datetime
-data['Id'] = (data['Datetime'] - pd.Timestamp("1970-01-01")) // pd.Timedelta('1s')
+data['Id'] = data['Datetime'].astype(int) / 10**9
 
 # Setting datetime in format accepted by Mariadb
 data['Datetime'] = data['Datetime'].apply(lambda x: x.strftime("%Y-%m-%d %H:%M:%S"))

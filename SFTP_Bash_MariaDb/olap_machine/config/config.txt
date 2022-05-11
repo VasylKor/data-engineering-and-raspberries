@@ -5,4 +5,4 @@ remote_filename=
 data_folder=
 processed_data_filename= 
 scripts_folder=
-path_to_main_folder= #path to folder conatining scripts and config folders
+path_to_main_folder= #path to folder contining scripts and config folders
