@@ -14,8 +14,8 @@ It unfolds as follows:
 3) OLAP machine runs Python scripts performing:
     - basic data manipulation with **pandas** to prepare for import in DB
     - generation of processed CSV
-    - connection to MariaDB and instruction sendigo to load data and execute relevant Stored Procedures
-4) In Mariadb, data is loaded in staging table and UPSERTed in presentation table
+    - connection to MariaDB and instruction to load data and execute relevant Stored Procedures
+4) In Mariadb, data is loaded in staging table and UPSERTed in presentation table by SPs.
 
 
 ## Contents
@@ -30,4 +30,4 @@ You will find:
 ## How to use
 Change config variables. **Do not** end paths with escape `/` character. 
 
-Configure sftp/ssh OLAP machine with public/privete keys.
+Configure sftp/ssh with OLAP machine with public/privete keys.
