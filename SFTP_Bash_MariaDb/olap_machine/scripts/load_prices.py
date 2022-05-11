@@ -5,8 +5,10 @@ import mariadb
 import os
 import sys
 
+# Setting folder as working directory
 os.chdir(os.path.dirname(sys.argv[0]))
 
+# Reading configuration
 config = configparser.ConfigParser()
 config.read("../config/py_config.txt")
 db_param = config["mariadb"]
@@ -31,8 +33,17 @@ except mariadb.Error as e:
 
 data = pd.read_csv(data_path)
 data['Datetime'] = pd.to_datetime(data['Datetime'])
+# getting Id as int taken from datetime
+data['Id'] = (data['Datetime'] - pd.Timestamp("1970-01-01")) // pd.Timedelta('1s')
+
+# Setting datetime in format accepted by Mariadb
 data['Datetime'] = data['Datetime'].apply(lambda x: x.strftime("%Y-%m-%d %H:%M:%S"))
 data = data.fillna(data.mean())
+
+# Bringing Id as first column
+cols = list(data.columns)
+cols = [cols[-1]] + cols[:-1]
+data = data[cols]
 
 data.to_csv(processed_data_path, index=False, header=False)
 
@@ -40,7 +51,6 @@ cur = conn.cursor()
 cur.execute(f"TRUNCATE TABLE {dest_table}")
 cur.execute(
 	f"LOAD DATA INFILE '{processed_data_path}' INTO TABLE {dest_table} FIELDS TERMINATED BY ',';")
-cur.execute("CALL pr_PrepareAPC")
 cur.execute("CALL finance.pr_UpdateACP")
 conn.commit()
 conn.close()

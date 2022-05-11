@@ -26,9 +26,14 @@ You will find:
 - `olap_machine` folder with:
     - `scripts`: folder with scripts
     - `config`: folder with configs to be edited
+    - `sql`: folder with sql scripts
 
 ## How to use
 Change config variables. **Do not** end paths with escape `/` character. 
 
 Configure sftp/ssh with OLAP machine with public/privete keys.\
-Set up cronojobs passing config.txt to exec_pipeline.sh command
+Set up cronjobs passing config.txt to exec_pipeline.sh command
+
+## Dependencies
+Python: pandas, yfinance, numpy
+
