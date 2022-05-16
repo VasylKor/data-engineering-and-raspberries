@@ -7,7 +7,7 @@ Having two linux machines, one is importing data as part of its daily processes,
 The pipeline loads data incrementally updating the last 7 days. Operations are performed through **cronjobs** triggering **.sh scripts** which orchestrate the various tasks including directory/folder management.
 It unfolds as follows:
 
-(image)
+![image info](./images/Pipeline.png)
 
 1) OLTP machine downloads data periodically into CSV
 2) OLAP machine gets CSV through SFTP
