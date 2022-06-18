@@ -5,7 +5,8 @@ import configparser
 import os
 import sys
 
-os.chdir(os.path.dirname(sys.argv[0]))
+pathname = os.path.dirname(os.path.abspath(__file__))
+os.chdir(pathname)
 
 today = DT.date.today().strftime("%Y-%m-%d")
 
