@@ -3,14 +3,16 @@ import mariadb
 import configparser
 import os
 import sys
+import socket
 
 
 # Setting folder as working directory
-os.chdir(os.path.dirname(sys.argv[0]))
+pathname = os.path.dirname(os.path.abspath(__file__))
+os.chdir(pathname)
 
 # Reading configuration
 config = configparser.ConfigParser()
-config.read("../config/py_config.txt")
+config.read("../config/config.txt")
 db_param = config["mariadb"]
 
 dest_table = db_param["dest_table"]
@@ -27,6 +29,14 @@ try:
 except mariadb.Error as e:
 	print(f"Error connecting to MariaDB Platform: {e}")
 	sys.exit(1)
+
+cur = conn.cursor()
+
+
+# Getting hostname
+
+hostname = socket.gethostname()
+
 
 # Get CPU stats
 
@@ -67,8 +77,20 @@ net_sent = psutil.net_io_counters(pernic=False, nowrap=True).bytes_sent
 net_received = psutil.net_io_counters(pernic=False, nowrap=True).bytes_recv
 
 
-
-
+# Inserting data in db
+try:
+	query = f"""insert into {db_param["schema"]}.{dest_table} (hostname, `timestamp`, cpu_percent, cpu_temp, ram_percent, ram_available, ram_used, ram_swap_percent, disk_percent, disk_used, disk_free, net_sent, net_received)
+				VALUES 
+				('{hostname}', CURRENT_TIMESTAMP(), {cpu_percent}, {cpu_temp}, {ram_usage}, {ram_available}, {ram_used}, {ram_swap_percent}, {disk_percent}, {disk_used}, {disk_free}, {net_sent}, {net_received})
+	"""
+	cur.execute(query)
+	
+	conn.commit()
+	
+	conn.close()
+except Exception as e:
+	conn.close()
+	print(str(e))
 
 
 
