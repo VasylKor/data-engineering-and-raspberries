@@ -12,7 +12,7 @@ os.chdir(pathname)
 
 # Reading configuration
 config = configparser.ConfigParser()
-config.read("../config/config.txt")
+config.read("../config/py_config.txt")
 db_param = config["mariadb"]
 
 dest_table = db_param["dest_table"]
