@@ -22,6 +22,7 @@ else
 	echo `date` "Created directory and imported files" >> $path_to_main_folder/logs/logs.txt
 
 fi
+
 echo `date` "Executing SQL pipeline" >> $path_to_main_folder/logs/logs.txt
 python $scripts_folder/load_prices.py 
 echo `date` "Done" >> $path_to_main_folder/logs/logs.txt
