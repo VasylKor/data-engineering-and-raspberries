@@ -1,7 +1,0 @@
-[mariadb]
-host=
-user=
-pwd=
-schema=
-port=
-dest_table= 

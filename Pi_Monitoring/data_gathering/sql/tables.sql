@@ -1,4 +1,4 @@
--- pi_metrics.metrics definition
+-- metrics definition
 
 CREATE TABLE `metrics` (
   `hostname` varchar(100) DEFAULT NULL,
