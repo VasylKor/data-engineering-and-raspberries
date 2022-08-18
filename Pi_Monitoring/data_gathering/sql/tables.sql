@@ -6,7 +6,7 @@ CREATE TABLE `metrics` (
   `cpu_percent` float DEFAULT NULL,
   `cpu_temp` float DEFAULT NULL,
   `ram_percent` float DEFAULT NULL,
-  `ram_available` int(11) DEFAULT NULL,
+  `ram_available` bigint(20) DEFAULT NULL,
   `ram_used` bigint(20) DEFAULT NULL,
   `ram_swap_percent` float DEFAULT NULL,
   `disk_percent` float DEFAULT NULL,
