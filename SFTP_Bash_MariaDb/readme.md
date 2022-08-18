@@ -30,7 +30,7 @@ You will find:
     - `logs`: folder with logs
 
 ## How to use
-Change config variables. **Do not** end paths with escape `/` character. 
+Create config files `config.txt` and `py_config.txt` in `config` folder from samples in the same folder. **Do not** end paths with escape `/` character. 
 
 Configure sftp/ssh with OLAP machine with public/privete keys.\
 Set up cronjobs passing config.txt to exec_pipeline.sh command
