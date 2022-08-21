@@ -1,3 +1,4 @@
 config.txt
 py_config.txt
 custom_monitor.service
+.DS_Store
