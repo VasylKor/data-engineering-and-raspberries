@@ -1,0 +1,7 @@
+[mariadb]
+host=
+user=
+pwd=
+schema=
+port=
+source_table= 
