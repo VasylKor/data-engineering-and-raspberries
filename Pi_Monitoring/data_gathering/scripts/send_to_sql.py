@@ -48,7 +48,7 @@ cpu_percent = psutil.cpu_percent(interval=2)
 ram_usage = psutil.virtual_memory().percent
 ram_available = psutil.virtual_memory().available
 ram_used = psutil.virtual_memory().used
-ram_swap_percent = psutil.virtual_memory().available
+ram_swap_percent = psutil.swap_memory().percent
 
 
 # Get Disk usage in bytes

@@ -30,7 +30,8 @@ database=db_param["schema"]
 try:
     mydb = connection.connect(host=hostname, database = database,user=user, passwd=password,use_pure=True)
     
-    query = f"""select hostname, timestamp, cpu_percent, cpu_temp
+    query = f"""select 
+                    *
                 from {source_table} 
                 where `timestamp` >= NOW() - INTERVAL 1 MONTH
             """
@@ -117,6 +118,60 @@ app.layout = html.Div(
                     ),
                     className="card",
                 ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="ram-usage-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="ram-used-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="ram-free-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="ram-swap-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="disk-usage-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="disk-used-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="disk-free-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="net-sent-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="net-received-chart", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
             ],
             className="wrapper",
         ),
@@ -130,7 +185,19 @@ app.layout = html.Div(
 
 
 @app.callback(
-    [Output("cpu-temp-chart", "figure"), Output("cpu-usage-chart", "figure")],
+    [
+        Output("cpu-temp-chart", "figure"), 
+        Output("cpu-usage-chart", "figure"),
+        Output("ram-usage-chart", "figure"),
+        Output("ram-used-chart","figure"),
+        Output("ram-free-chart","figure"),
+        Output("ram-swap-chart","figure"),
+        Output("disk-usage-chart", "figure"),
+        Output("disk-used-chart","figure"),
+        Output("disk-free-chart","figure"),
+        Output("net-sent-chart","figure"),
+        Output("net-received-chart","figure"),
+    ],
     [
         Input("host-filter", "value"),
         Input("date-range", "start_date"),
@@ -147,7 +214,8 @@ def update_charts(host, start_date, end_date, n):
     )
 
     filtered_data = data.loc[mask, :]
-    price_chart_figure = {
+
+    cpu_temp_chart_figure = {
         "data": [
             {
                 "x": filtered_data["timestamp"],
@@ -158,7 +226,7 @@ def update_charts(host, start_date, end_date, n):
         ],
         "layout": {
             "title": {
-                "text": "CPU temperature",
+                "text": "CPU Temperature",
                 "x": 0.05,
                 "xanchor": "left",
             },
@@ -168,7 +236,7 @@ def update_charts(host, start_date, end_date, n):
         },
     }
 
-    volume_chart_figure = {
+    cpu_usage_chart_figure = {
         "data": [
             {
                 "x": filtered_data["timestamp"],
@@ -177,13 +245,161 @@ def update_charts(host, start_date, end_date, n):
             },
         ],
         "layout": {
-            "title": {"text": "CPU Usage", "x": 0.05, "xanchor": "left"},
+            "title": {"text": "CPU Usage Percent", "x": 0.05, "xanchor": "left"},
             "xaxis": {"fixedrange": True},
-            "yaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "%","fixedrange": True},
             "colorway": ["#E12D39"],
         },
     }
-    return price_chart_figure, volume_chart_figure
+
+    ram_usage_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["ram_percent"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "RAM Usage Percent", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "%","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    ram_used_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["ram_used"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "Used RAM Bytes", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "B","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    ram_free_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["ram_available"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "Free RAM Bytes", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "B","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    ram_swap_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["ram_swap_percent"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "Swapped RAM Percent", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "%","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    disk_usage_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["disk_percent"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "Disk Usage Percent", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "%","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    disk_used_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["disk_used"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "Used Disk Bytes", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "B","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    disk_free_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["disk_free"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "Free Disk Bytes", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "B","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    net_sent_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["net_sent"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "Sent Bytes", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "B","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    net_received_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["timestamp"],
+                "y": filtered_data["net_received"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {"text": "Received Bytes", "x": 0.05, "xanchor": "left"},
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"ticksuffix": "B","fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+
+    return cpu_temp_chart_figure, cpu_usage_chart_figure, ram_usage_chart_figure, \
+            ram_used_chart_figure, ram_free_chart_figure, ram_swap_chart_figure, \
+            disk_usage_chart_figure, disk_used_chart_figure, disk_free_chart_figure, \
+            net_sent_chart_figure, net_received_chart_figure
 
 
 if __name__ == '__main__':
