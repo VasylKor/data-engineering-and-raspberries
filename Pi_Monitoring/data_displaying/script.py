@@ -94,8 +94,8 @@ app.layout = html.Div(
                             ),
                         dcc.DatePickerRange(
                             id="date-range",
-                            min_date_allowed=data.timestamp.min(),
-                            max_date_allowed=data.timestamp.max(),
+                            min_date_allowed=datetime.date(2017, 6, 21),
+                            max_date_allowed=datetime.date(2050, 12, 31), # must be parametrized
                             start_date=data.timestamp.min(),
                             end_date=data.timestamp.max(),
                         ),
@@ -206,6 +206,22 @@ app.layout = html.Div(
     ],
 )
 def update_charts(host, start_date, end_date, n):
+
+    try:
+        mydb = connection.connect(host=hostname, database = database,user=user, passwd=password,use_pure=True)
+        
+        query = f"""select 
+                        *
+                    from {source_table} 
+                    where `timestamp` >= NOW() - INTERVAL 1 MONTH
+                """
+        data = pd.read_sql(query,mydb)
+        
+        
+        mydb.close()
+    except Exception as e:
+        mydb.close()
+        print(str(e))
 
     mask = (
         (data.hostname == host)
