@@ -1,0 +1,11 @@
+[Unit]
+Description=custom_monitor service
+After=network.target
+
+[Service]
+User=<your user>
+ExecStart=/bin/bash -c "while true; do  python <path_to_scripts/send_to_sql.py> sleep 30; done"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
