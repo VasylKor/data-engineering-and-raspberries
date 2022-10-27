@@ -1,4 +1,4 @@
-# Monitoring of hour PiS
+# Monitoring of our PiS
 
 A simple project born from the necessity to monitor my Pis.
 
