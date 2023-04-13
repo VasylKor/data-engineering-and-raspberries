@@ -6,13 +6,12 @@ CREATE TABLE `metrics` (
   `cpu_percent` float DEFAULT NULL,
   `cpu_temp` float DEFAULT NULL,
   `ram_percent` float DEFAULT NULL,
-  `ram_available` bigint(20) DEFAULT NULL,
-  `ram_used` bigint(20) DEFAULT NULL,
+  `ram_available_mbyte` decimal(10,2) DEFAULT NULL,
+  `ram_used_mbyte` decimal(10,2) DEFAULT NULL,
   `ram_swap_percent` float DEFAULT NULL,
   `disk_percent` float DEFAULT NULL,
-  `disk_used` bigint(20) DEFAULT NULL,
-  `disk_free` bigint(20) DEFAULT NULL,
-  `net_sent` bigint(20) DEFAULT NULL,
-  `net_received` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+  `disk_used_mbyte` decimal(10,2) DEFAULT NULL,
+  `disk_free_mbyte` decimal(10,2) DEFAULT NULL,
+  `net_sent_gbyte` decimal(10,2) DEFAULT NULL,
+  `net_received_gbyte` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
